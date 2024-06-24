@@ -11,6 +11,11 @@ mod kotlin;
 pub use kotlin::{
     run_script as kotlin_run_script, run_test as kotlin_run_test, KotlinBindingGenerator,
 };
+mod kotlin_multiplatform;
+pub use kotlin_multiplatform::{
+    run_script as kotlin_multiplatform_run_script, run_test as kotlin_multiplatform_run_test,
+    KotlinMultiplatformBindingGenerator,
+};
 mod python;
 pub use python::{
     run_script as python_run_script, run_test as python_run_test, PythonBindingGenerator,

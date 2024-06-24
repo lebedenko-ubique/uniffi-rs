@@ -13,6 +13,7 @@ use uniffi_bindgen::bindings::*;
 #[derive(Copy, Clone, Eq, PartialEq, Hash, clap::ValueEnum)]
 enum TargetLanguage {
     Kotlin,
+    KotlinMultiplatform,
     Swift,
     Python,
     Ruby,
@@ -22,6 +23,7 @@ impl fmt::Display for TargetLanguage {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Kotlin => write!(f, "kotlin"),
+            Self::KotlinMultiplatform => write!(f, "kotlin-multiplatform"),
             Self::Swift => write!(f, "swift"),
             Self::Python => write!(f, "python"),
             Self::Ruby => write!(f, "ruby"),
@@ -160,6 +162,15 @@ fn gen_library_mode(
                 fmt,
             )?
             .len(),
+            TargetLanguage::KotlinMultiplatform => generate_bindings(
+                library_path,
+                crate_name.clone(),
+                &KotlinMultiplatformBindingGenerator,
+                cfo,
+                out_dir,
+                fmt,
+            )?
+            .len(),
             TargetLanguage::Python => generate_bindings(
                 library_path,
                 crate_name.clone(),
@@ -208,6 +219,15 @@ fn gen_bindings(
                 udl_file,
                 cfo,
                 KotlinBindingGenerator,
+                odo,
+                library_file,
+                crate_name,
+                fmt,
+            )?,
+            TargetLanguage::KotlinMultiplatform => generate_bindings(
+                udl_file,
+                cfo,
+                KotlinMultiplatformBindingGenerator,
                 odo,
                 library_file,
                 crate_name,
